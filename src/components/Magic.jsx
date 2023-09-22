@@ -4,9 +4,20 @@ import { useLazyGetSummaryQuery } from "../services/article";
 
 const Magic = () => {
   const [article, setArticle] = useState({ url: "", summary: "" });
-
+  const [userHistory, setUserHistory] = useState([]);
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
 
+  useEffect(() => {
+    const articlesFromLocalStorage = JSON.parse(
+      localStorage.getItem("articles")
+    );
+
+    if (articlesFromLocalStorage) {
+      setUserHistory(articlesFromLocalStorage);
+    }
+  }, []);
+
+  // api call handler
   const handleSubmit = async (e) => {
     console.log(article.url);
     e.preventDefault();
@@ -14,7 +25,11 @@ const Magic = () => {
 
     if (data?.summary) {
       const newArticle = { ...article, summary: data.summary };
+      const userArticleHistory = [newArticle, ...userHistory];
+
       setArticle(newArticle);
+      setUserHistory(userArticleHistory);
+      localStorage.setItem("articles", JSON.stringify(userArticleHistory));
       console.log(newArticle);
     }
   };
@@ -48,6 +63,15 @@ const Magic = () => {
             Go
           </button>
         </form>
+
+        <div className="flex flex-col gap-1 max-h-60 overflow-y-auto">
+          {userHistory.map((article, index) => (
+            <div
+              key={`link-${index}`}
+              onClick={() => setArticle(article)}
+              className="link_card"></div>
+          ))}
+        </div>
       </div>
     </section>
   );
