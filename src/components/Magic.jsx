@@ -46,7 +46,7 @@ const Magic = () => {
             className="absolute left-0 my-2 ml-3 w-5"
           />
 
-          {/* INPUT */}
+          {/* Input */}
           <input
             type="url"
             placeholder="Enter a URL"
@@ -64,15 +64,30 @@ const Magic = () => {
           </button>
         </form>
 
+        {/* User History */}
         <div className="flex flex-col gap-1 max-h-60 overflow-y-auto">
           {userHistory.map((article, index) => (
             <div
               key={`link-${index}`}
               onClick={() => setArticle(article)}
-              className="link_card"></div>
+              className="link_card">
+              <div className="copy_btn">
+                <img
+                  src={copy}
+                  alt="copy_icon"
+                  className="w-[40%] h-[40%] object-contain"
+                />
+              </div>
+              <div>
+                <p className="flex-1 font-satoshi text-blue-700 font-medium text-sm truncate">
+                  {article.url}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
+      {/* Summary */}
     </section>
   );
 };
