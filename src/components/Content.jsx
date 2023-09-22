@@ -18,7 +18,7 @@ const Content = () => {
       </h1>
 
       <h2 className="desc">
-        Instantly summarize articles with OpenAI's GPT model. Effortless,
+        Instantly summarize articles with OpenAI GPT model. Effortless,
         efficient reading at your fingertips.
       </h2>
     </header>

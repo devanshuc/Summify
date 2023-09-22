@@ -1,6 +1,7 @@
 import "./App.css";
 import Content from "./components/Content";
 import Magic from "./components/Magic";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -11,6 +12,9 @@ const App = () => {
       <div className="app">
         <Content />
         <Magic />
+      </div>
+      <div>
+        <Footer />
       </div>
     </main>
   );
