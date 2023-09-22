@@ -6,6 +6,7 @@ const Magic = () => {
   const [article, setArticle] = useState({ url: "", summary: "" });
   const [userHistory, setUserHistory] = useState([]);
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
+  const [copied, setCopied] = useState("");
 
   useEffect(() => {
     const articlesFromLocalStorage = JSON.parse(
@@ -30,8 +31,14 @@ const Magic = () => {
       setArticle(newArticle);
       setUserHistory(userArticleHistory);
       localStorage.setItem("articles", JSON.stringify(userArticleHistory));
-      console.log(newArticle);
+      // console.log(newArticle);
     }
+  };
+
+  const handleCopy = (copyUrl) => {
+    setCopied(copyUrl);
+    navigator.clipboard.writeText(copyUrl);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -71,10 +78,10 @@ const Magic = () => {
               key={`link-${index}`}
               onClick={() => setArticle(article)}
               className="link_card">
-              <div className="copy_btn">
+              <div className="copy_btn" onClick={() => handleCopy(article.url)}>
                 <img
-                  src={copy}
-                  alt="copy_icon"
+                  src={copied === article.url ? tick : copy}
+                  alt={copied === article.url ? "tick_icon" : "copy_icon"}
                   className="w-[40%] h-[40%] object-contain"
                 />
               </div>
@@ -93,7 +100,7 @@ const Magic = () => {
           <img src={loader} alt="loader" className="w-20 h-20 object-contain" />
         ) : error ? (
           <p className="font-inter font-bold text-black text-center">
-            Well, that wasn't supposed to happen...
+            Sorry, That was not supposed to happen.
             <br />
             <span className="font-satoshi font-normal text-gray-700">
               {error?.data?.error}
